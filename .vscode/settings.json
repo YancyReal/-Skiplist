@@ -5,6 +5,8 @@
     "*.dbclient-js": "javascript",
     "iostream": "cpp",
     "iterator": "cpp",
-    "random": "cpp"
+    "random": "cpp",
+    "string": "cpp",
+    "istream": "cpp"
   }
 }

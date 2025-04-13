@@ -47,8 +47,11 @@ Node<K, V>::Node(const K k, const V v, int level) {
     // level + 1, because array index is from 0 - level
     this->forward = new Node<K, V>*[level+1];
     
-	// Fill forward array with 0(NULL) 
-    memset(this->forward, 0, sizeof(Node<K, V>*)*(level+1));
+	// Fill forward array with 0(NULL)
+    for (int i = 0; i <= level; i++)
+    {
+        forward[i] = nullptr;
+    }
 };
 
 template<typename K, typename V> 
@@ -149,8 +152,8 @@ int SkipList<K, V>::insert_element(const K key, const V value) {
 
     // create update array and initialize it 
     // update is array which put node that the node->forward[i] should be operated later
-    Node<K, V> *update[_max_level];
-    memset(update, 0, sizeof(Node<K, V>*)*(_max_level));  
+    Node<K, V> *update[_max_level+1];
+    memset(update, 0, sizeof(Node<K, V>*)*(_max_level+1));  
 
     // start form highest level of skip list 
     for(int i = _skip_list_level; i >= 0; i--) {
@@ -179,11 +182,11 @@ int SkipList<K, V>::insert_element(const K key, const V value) {
 
         // If random level is greater thar skip list's current level, initialize update value with pointer to header
         if (random_level > _skip_list_level) {
-            for (int i = _skip_list_level+1; i < random_level+1; i++) {
+            for (int i = _skip_list_level+1; i <= random_level; i++) {
                 update[i] = _header;
             }
             _skip_list_level = random_level;
-            std::cout << "现在的层级：" << _skip_list_level << std::endl;
+            // std::cout << "现在的层级：" << _skip_list_level << std::endl;
         }
 
         // create new node with random level generated 
